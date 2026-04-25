@@ -1,0 +1,15 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Dog {
+  id        Int      @id @default(autoincrement())
+  breed     String   @unique
+  subBreeds String[] // PostgreSQL natively supports string arrays!
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
