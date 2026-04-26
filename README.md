@@ -14,7 +14,7 @@ A simple REST API built with Express, TypeScript, Prisma, and PostgreSQL to mana
 
 1. Clone the repository
 ```bash
-git clone <repo-url>
+git clone https://github.com/akgone38/hutchison_assignment.git
 cd hutchisonAssignment
 ```
 
@@ -42,6 +42,7 @@ npm run dev
 ```
 
 The server runs at `http://localhost:3000`.
+Also hosted on `https://hutchison-assignment.onrender.com`
 
 ## Available Scripts
 
