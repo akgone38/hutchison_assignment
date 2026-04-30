@@ -14,7 +14,7 @@ A simple REST API built with Express, TypeScript, Prisma, and PostgreSQL to mana
 
 1. Clone the repository
 ```bash
-git clone <repo-url>
+git clone https://github.com/akgone38/hutchison_assignment.git
 cd hutchisonAssignment
 ```
 
@@ -28,6 +28,7 @@ npm install
 DATABASE_URL="postgresql://user:password@localhost:5432/dogs_dev"
 PORT=3000
 NODE_ENV=development
+JWT_SECRET="your-secret-key"
 ```
 
 4. Run migrations and seed data
@@ -42,6 +43,7 @@ npm run dev
 ```
 
 The server runs at `http://localhost:3000`.
+Also hosted on `https://hutchison-assignment.onrender.com`
 
 ## Available Scripts
 
@@ -88,6 +90,58 @@ Content-Type: application/json
 ```http
 DELETE /api/dogs/:breed
 ```
+
+## Authentication Endpoints
+
+### Register a user
+```http
+POST /api/auth/register
+Content-Type: application/json
+```
+
+```json
+{
+  "email": "user@example.com",
+  "password": "strong-password"
+}
+```
+
+**Success response:**
+```json
+{
+  "message": "User registered successfully",
+  "user": {
+    "id": "...",
+    "email": "user@example.com"
+  }
+}
+```
+
+### Login a user
+```http
+POST /api/auth/login
+Content-Type: application/json
+```
+
+```json
+{
+  "email": "user@example.com",
+  "password": "strong-password"
+}
+```
+
+**Success response:**
+```json
+{
+  "token": "<jwt-token>",
+  "user": {
+    "id": "...",
+    "email": "user@example.com"
+  }
+}
+```
+
+> Use `JWT_SECRET` in your `.env` to sign tokens.
 
 ## Project Structure
 

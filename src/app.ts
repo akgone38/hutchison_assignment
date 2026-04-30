@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import dogRoutes from './routes/dog.routes.js';
+import authRoutes from './routes/auth.routes.js'; // <-- NEW: Import the auth routes
 
 const app = express();
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -13,7 +14,13 @@ app.use(express.json());
 if (NODE_ENV === 'development') {
   // Development: Verbose logging for all requests
   app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - Body: ${JSON.stringify(req.body)}`);
+    // SECURITY PATCH: Never log plain-text passwords to the terminal
+    const safeBody = { ...req.body };
+    if (safeBody.password) {
+      safeBody.password = '[HIDDEN FOR SECURITY]';
+    }
+    
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - Body: ${JSON.stringify(safeBody)}`);
     next();
   });
   console.log('🚀 Running in DEVELOPMENT mode');
@@ -36,7 +43,8 @@ if (NODE_ENV === 'development') {
 }
 
 // Routes
-app.use('/api/dogs', dogRoutes);
+app.use('/api/auth', authRoutes); // <-- NEW: Public authentication routes
+app.use('/api/dogs', dogRoutes);  // <-- Existing dog routes (Protected inside dog.routes.ts)
 
 // Error handling middleware (differs by environment)
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
